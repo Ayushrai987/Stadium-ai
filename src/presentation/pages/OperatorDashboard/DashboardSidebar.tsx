@@ -1,4 +1,4 @@
-import { memo, KeyboardEvent } from 'react';
+import { memo, type KeyboardEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Activity } from 'lucide-react';
 import { StatusIndicator } from '../../components/common';

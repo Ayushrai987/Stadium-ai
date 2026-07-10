@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useVenueStore } from '../../../infrastructure/store/useVenueStore';
 import { useIncidentStore } from '../../../infrastructure/store/useIncidentStore';
 import { useKPIStore } from '../../../infrastructure/store/useKPIStore';
@@ -9,20 +8,14 @@ import { useSimulationStore } from '../../../infrastructure/store/useSimulationS
 import { useShallow } from 'zustand/react/shallow';
 import { StadiumHeatmap } from '../../components/stadium/StadiumHeatmap';
 import { AlertFeed } from '../../components/stadium/AlertFeed';
-import { KPICard, MetricChart, ProgressRing, StatusIndicator, SimulationControl, showToast } from '../../components/common';
+import { KPICard, MetricChart, SimulationControl, showToast } from '../../components/common';
 import { rateLimiter } from '../../../infrastructure/security/RateLimiter';
 import {
   Users,
   Clock,
   DollarSign,
   Zap,
-  Activity,
-  ArrowLeft,
   Settings,
-  Thermometer,
-  Wind,
-  AlertTriangle,
-  Lightbulb,
 } from 'lucide-react';
 import { type Zone, type Incident } from '../../../types';
 import { formatNumber, formatCurrency, calcOccupancyPercent } from '../../../utils/formatters';
@@ -34,7 +27,6 @@ import { DashboardSidebar, ZoneDetailPanel, IncidentPlaybook, EnergyPanel } from
  * business outcome KPIs, detailed zone telemetry drill-downs, and automated response actions.
  */
 export function OperatorDashboard() {
-  const navigate = useNavigate();
   const { venues, selectedVenueId, getSelectedVenue, getSensorStats, selectVenue } = useVenueStore(useShallow(state => ({
     venues: state.venues,
     selectedVenueId: state.selectedVenueId,
@@ -123,12 +115,6 @@ export function OperatorDashboard() {
     showToast(`Switched venue view to ${venues.find(v => v.id === id)?.name || ''}`, 'info');
   };
 
-  const handleVenueKeyDown = (e: React.KeyboardEvent, id: string) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      handleVenueClick(id);
-    }
-  };
 
   const currentOccupancyPercent = calcOccupancyPercent(currentVenue.currentAttendance, currentVenue.capacity);
 

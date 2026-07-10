@@ -6,7 +6,7 @@ import { useCrowdStore } from '../../infrastructure/store/useCrowdStore';
 import { useEnergyStore } from '../../infrastructure/store/useEnergyStore';
 import { useIncidentStore } from '../../infrastructure/store/useIncidentStore';
 import { useKPIStore } from '../../infrastructure/store/useKPIStore';
-import * as SensorSimulator from '../../infrastructure/simulation/SensorSimulator';
+
 
 vi.mock('../../infrastructure/simulation/SensorSimulator', () => ({
   generateSensorReadings: vi.fn((zones) => zones), // Default mock returns zones unchanged

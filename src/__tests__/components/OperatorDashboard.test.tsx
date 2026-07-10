@@ -47,20 +47,27 @@ describe('OperatorDashboard Component', () => {
           capacity: 80000,
           currentAttendance: 45000,
           sensorHealth: 98,
-          regulatoryRegion: 'NJ-EPA',
+          regulatoryRegion: 'OTHER',
+          status: 'operational',
+          coordinates: { lat: 40.8135, lng: -74.0744 },
           zones: [
             {
               id: 'zone-north-upper',
+              venueId: 'venue-metlife',
               name: 'North Upper Stand',
               type: 'seating',
               capacity: 10000,
               currentOccupancy: 5000,
               temperature: 72,
+              humidity: 50,
               airQuality: 45,
-              queueTime: 5,
+              noiseLevel: 80,
               energyUsage: 120,
+              queueTime: 5,
+              predictedQueueTime: 5,
+              alerts: [],
               sensors: [
-                { id: 's1', type: 'occupancy', status: 'online', battery: 85, lastUpdated: Date.now() },
+                { id: 's1', zoneId: 'zone-north-upper', type: 'crowd-counter', status: 'online', battery: 85, lastUpdated: Date.now(), lastReading: 5000, accuracy: 95 },
               ],
             },
           ],
@@ -73,18 +80,25 @@ describe('OperatorDashboard Component', () => {
           capacity: 70000,
           currentAttendance: 35000,
           sensorHealth: 95,
-          regulatoryRegion: 'CA-AQMD',
+          regulatoryRegion: 'OTHER',
+          status: 'operational',
+          coordinates: { lat: 33.9534, lng: -118.3387 },
           zones: [
             {
               id: 'zone-south-lower',
+              venueId: 'venue-sofi',
               name: 'South Lower Stand',
               type: 'seating',
               capacity: 8000,
               currentOccupancy: 4000,
               temperature: 70,
+              humidity: 45,
               airQuality: 35,
-              queueTime: 2,
+              noiseLevel: 75,
               energyUsage: 100,
+              queueTime: 2,
+              predictedQueueTime: 2,
+              alerts: [],
               sensors: [],
             },
           ],
@@ -106,8 +120,12 @@ describe('OperatorDashboard Component', () => {
           assignedTo: null,
           location: 'Section 102, Row B',
           detectedAt: Date.now() - 30000,
+          alertedAt: Date.now() - 30000,
+          respondedAt: null,
+          resolvedAt: null,
+          automatedActions: [],
           decisionAuditTrail: [
-            { timestamp: Date.now() - 30000, decision: 'Incident detected by AI camera', madeBy: 'System Classifier', rationale: 'High fall confidence score' },
+            { timestamp: Date.now() - 30000, decision: 'Incident detected by AI camera', madeBy: 'system', rationale: 'High fall confidence score', dataInputs: ['Camera feed analysis'], outcome: 'Alert dispatched to operators' },
           ],
         },
       ],
@@ -173,7 +191,7 @@ describe('OperatorDashboard Component', () => {
 
     // Main header title
     expect(screen.getByText('MetLife Stadium Command')).toBeInTheDocument();
-    expect(screen.getByText('East Rutherford, USA · Regulatory Zone: NJ-EPA')).toBeInTheDocument();
+    expect(screen.getByText('East Rutherford, USA · Regulatory Zone: OTHER')).toBeInTheDocument();
 
     // KPI Cards check
     expect(screen.getByText('Live Attendance')).toBeInTheDocument();

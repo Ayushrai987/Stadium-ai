@@ -157,6 +157,8 @@ describe('Zustand Stores Integration Flow', () => {
         timestamp: Date.now(),
         decision: 'Bomb squad standby',
         rationale: 'Preventative measure',
+        dataInputs: ['Operator input'],
+        outcome: 'Standby ordered',
         madeBy: 'operator',
       });
       expect(useIncidentStore.getState().incidents[0].decisionAuditTrail).toHaveLength(4);

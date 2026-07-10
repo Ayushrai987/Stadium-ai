@@ -5,16 +5,15 @@ import { useKPIStore } from '../../../infrastructure/store/useKPIStore';
 import { useShallow } from 'zustand/react/shallow';
 import {
   Compass,
-  MapPin,
   Pizza,
   Users,
   Accessibility,
   Shield,
   ArrowLeft,
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { showToast } from '../../components/common';
-import { DEFAULT_FAN_PROFILE } from '../../../constants';
+import { DEFAULT_FAN_PROFILE, AR_DIRECTIONS } from '../../../constants';
 import { validateStringInput } from '../../../infrastructure/security/InputSanitizer';
 import { rateLimiter } from '../../../infrastructure/security/RateLimiter';
 import { ArWayfinding, ConcessionOffers, FriendFinder, AccessibilityPanel, PrivacyPanel } from './';
@@ -178,7 +177,7 @@ export function FanExperience() {
 
               {/* Tab 3: Friend Finder */}
               {activeTab === 'friends' && (
-                <FriendFinder friends={profile.friends} isEnabled={profile.privacy.friendFinder} />
+                <FriendFinder friends={[...profile.friends]} isEnabled={profile.privacy.friendFinder} />
               )}
 
               {/* Tab 4: Accessibility Toggles */}

@@ -1,100 +1,181 @@
-# 🏟️ Smart Stadium & Tournament Operations Platform
+# 🏟️ Stadium AI — Smart Stadium Operations Platform
 
-> Real-Time Crowd Intelligence with AR Fan Experience & Tournament Command Center
+> **FIFA World Cup 2026** real-time stadium operations command center powered by AI-driven crowd analytics, IoT sensor simulation, and responsible AI decision-making.
 
-A modern, high-performance web application designed to demonstrate an integrated smart stadium ecosystem. It solves the critical operational challenge of bridging isolated stadium subsystems (ticketing, concession queues, sustainability grids, security feeds) into a unified operational decision dashboard.
-
----
-
-## 🚀 Key Stakeholder Views
-
-### 1. 🎛️ Stadium Operator Command Dashboard
-- **Live Stadium Heatmap**: Interactive SVG layout displaying zone-by-zone crowd occupancy density color-coded dynamically (Green = low, Red = high).
-- **Active Response Playbook System**: Step-by-step automated workflow coordinator triggered by crowd convergence alerts or security/medical incident counters.
-- **Sustainability Cockpit**: Circular progress ring trackers monitoring renewable grid percentages, carbon reductions, and dynamic spot-cooling controls.
-- **Business KPI Metrics Rows**: Before/after queue time trackers, real-time concession cash flow revenue, and sensor net health statuses.
-
-### 2. 📱 Fan Experience Mobile App Mockup
-- **AR Wayfinding Guidance**: Step-by-step navigation instructions simulated dynamically along coordinate path lines based on beacon proximity.
-- **Smart Concession Checkout**: Personalized food/drink combo promotions with one-click pre-ordering checkout overlays.
-- **Live Proximity Radar**: Privacy-compliant friend tracking interface displaying distances and concession corridors.
-- **Accessibility Console**: Toggles for acoustic audio beacon cues, elevator-only navigation routing, and live announcement caption panels.
-
-### 3. 🌐 Tournament Command Center Federation
-- **Cross-Venue Telemetry Feed**: Combined attendance metrics, sensor uptimes, and compliance regions across 5 distinct World Cup stadiums.
-- **Staff Proximity & Resource Allocation**: Telemetry feeds tracking medical responders and security strike crews in transit between venues, with progress meters.
-- **Federated Playbook Catalog**: Multi-stadium scenario simulators (capacity overloads, weather evacs).
-
-### 4. 🔒 Privacy & Compliance Center
-- **GDPR Right to be Forgotten**: Live user profiles scrubbing queue registry allowing audit-logged database deletions.
-- **Classification Index**: Matrix explaining public aggregated telemetry vs. isolated device-local preferences.
-- **Tamper-Proof Audit Logger**: Structured, frozen log history recording actor roles, action states, and outcomes.
+![TypeScript](https://img.shields.io/badge/TypeScript-6.0-blue?logo=typescript)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
+![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite)
+![Zustand](https://img.shields.io/badge/Zustand-5-orange)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
 
-## ♿ Accessibility (WCAG 2.1 AA Compliant)
-- **Keyboard Navigation**: Tab indexes and onKeyDown handlers mapped to all custom heatmap nodes, dialog controls, and playbook triggers.
-- **ARIA Landmark Regions**: `role="banner"`, `role="navigation"`, `role="main"`, `role="log"`, `role="progressbar"`, and `role="status"` tags.
-- **Focus Indicators**: Customized visible outlines applied globally, omitting borders on pointer clicks to maintain premium styling.
-- **System Theme Hooks**: Out-of-the-box support for high contrast preferences (`prefers-contrast: high`) and disabled animations (`prefers-reduced-motion: reduce`).
+## ⚡ Quick Start
+
+### Prerequisites
+- **Node.js** ≥ 18.x
+- **npm** ≥ 9.x
+
+### Installation & Run
+
+```bash
+# Clone the repository
+git clone https://github.com/Ayushrai987/Stadium-ai.git
+cd Stadium-ai
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+Open **http://localhost:5173** in your browser.
+
+### Other Commands
+
+```bash
+# Run all tests
+npm run test
+
+# Run tests with coverage report
+npm run test:coverage
+
+# Production build (TypeScript check + Vite bundle)
+npm run build
+
+# Preview production build
+npm run preview
+```
 
 ---
 
-## 🛡️ Security Architecture
-- **CSP Headers**: Standard HTML meta headers restricting unauthorized script sources and frame scopes.
-- **Input Sanitization**: HTML entity escaping library guarding against XSS scripts on dynamic descriptors.
-- **Sliding-Window Rate Limiter**: Core limiter preventing rapid click spamming on pre-order checkouts or deletions.
-- **Immutable Log Store**: Audit logs protected by Object.freeze() blocks to secure decision records.
+## 🎯 What It Does
+
+Stadium AI is a **hackathon-ready** real-time operations platform that simulates managing FIFA World Cup 2026 venues across North America. It demonstrates:
+
+| Feature | Description |
+|---|---|
+| 🗺️ **Live Heatmap** | Interactive stadium zone visualization with occupancy heat colors |
+| 🚨 **Incident Command** | Real-time alert feed with acknowledge → respond → resolve workflows |
+| 📊 **Business KPIs** | Before/after comparisons: queue time ↓33%, revenue ↑19%, energy ↓40% |
+| 📱 **Fan Experience** | Mobile app mockup with AR wayfinding, personalized concession pre-orders |
+| 🌍 **Multi-Venue Federation** | Cross-venue command center for 5 real FIFA 2026 stadiums |
+| 🔐 **Privacy Center** | GDPR/CCPA compliance dashboard with data export and consent management |
+| 🤖 **AI Audit Trail** | Every automated decision is logged with rationale and data inputs |
+| ⚡ **Energy Tracking** | Real-time HVAC/lighting/carbon footprint with sustainability KPIs |
 
 ---
 
-## 🛠️ Technology Stack & Layered Directory
-
-| Component | Tech | Rationale |
-|---|---|---|
-| **Core UI** | React 19 + TypeScript | Strict type safety, lazy component modules, custom hooks |
-| **Styling** | Vanilla CSS + Framer Motion | High-performance responsive layouts, premium glassmorphism |
-| **State** | Zustand | Lightweight client stores isolated by subdomain |
-| **Charts** | Recharts | Low-latency canvas charts with throttled selectors |
-| **Testing** | Vitest + jsdom | Native test runner integration with mock assertion helpers |
+## 🏗️ Architecture
 
 ```
 src/
-├── constants/          # Configuration values, limits, playbooks, defaults
-├── utils/              # Pure utility functions (formatters, debouncers)
-├── types/              # Domain entities type contracts
+├── types/                  # TypeScript type definitions (325 lines)
+├── constants/              # Configuration & magic numbers
 ├── infrastructure/
-│   ├── simulation/     # SimulationEngine and SensorSimulator tick loops
-│   ├── store/          # Zustand states (Crowd, Incident, Energy, KPIs)
-│   └── security/       # Sanitizers, Rate limiters, and AuditLoggers
-└── presentation/
-    ├── components/     # Reusable buttons, cards, and ProgressRings
-    └── pages/          # Layout cockpit routes (Landing, Operator, Fan, CommandCenter)
+│   ├── ai/                 # AI Decision Engine
+│   ├── security/           # InputSanitizer, RateLimiter, AuditLogger
+│   ├── simulation/         # SimulationEngine, SensorSimulator, VenueGenerator
+│   └── store/              # Zustand stores (Venue, Incident, Crowd, Energy, KPI, Simulation)
+├── presentation/
+│   ├── components/
+│   │   ├── common/         # GlassCard, KPICard, MetricChart, ProgressRing, Toast, ErrorBoundary
+│   │   └── stadium/        # StadiumHeatmap, AlertFeed
+│   └── pages/
+│       ├── Landing/        # Hero landing page
+│       ├── OperatorDashboard/  # Main operations cockpit (modularized)
+│       ├── FanExperience/  # Mobile fan app (5 sub-panels)
+│       ├── CommandCenter/  # Multi-venue federation
+│       └── PrivacyCenter/  # GDPR/CCPA compliance
+├── utils/                  # Pure functions (formatters, throttle, debounce)
+└── styles/                 # CSS design system (glassmorphism, dark theme)
 ```
+
+### Design Principles
+
+- **Clean Architecture** — Layered separation (infrastructure → presentation)
+- **Domain-Driven Design** — Types model real-world entities (Venue, Zone, Sensor, Incident)
+- **Immutable Audit Trail** — `Object.freeze()` on every decision record
+- **Privacy-by-Design** — On-device toggles, GDPR Article 20 data export
+- **Accessibility-First** — ARIA roles, skip navigation, reduced motion support, keyboard navigation
 
 ---
 
-## 📦 Getting Started
+## 🔐 Security Features
 
-### Installation
+| Feature | Implementation |
+|---|---|
+| **XSS Prevention** | HTML entity encoding via `sanitizeHTML()` |
+| **Input Validation** | Max-length enforcement, injection pattern detection |
+| **Rate Limiting** | Sliding-window limiter on orders and operator actions |
+| **Immutable Audit Log** | `Object.freeze()` on every entry, subscriber pattern |
+| **Data Portability** | JSON export of fan profile (GDPR Art. 20) |
+| **Content Security** | CSP meta tag in `index.html` |
+
+---
+
+## ♿ Accessibility
+
+- **WCAG 2.1 AA** compliant design targets
+- Skip navigation link (`SkipNavLink`)
+- `:focus-visible` outlines for keyboard users
+- `@media (prefers-reduced-motion: reduce)` — all animations disabled
+- `@media (prefers-contrast: high)` — enhanced text/border contrast
+- Semantic HTML5 elements (`<header>`, `<main>`, `<nav>`, `<aside>`)
+- ARIA: `role="tablist"`, `role="progressbar"`, `role="log"`, `aria-live="polite"`
+
+---
+
+## 🧪 Testing
+
 ```bash
-# Clone the repository and install dependencies
-npm install
-
-# Start the local development server (60fps simulation starts immediately)
-npm run dev
-
-# Run the test suite
-npm run test
-
-# Run test coverage audit
-npm run test:coverage
-
-# Build the optimized production distribution package
-npm run build
+npm run test           # Watch mode
+npm run test:run       # Single run
+npm run test:coverage  # With coverage report
 ```
+
+**77 tests** across 13 test files:
+- **Unit tests**: SimulationEngine, InputSanitizer, RateLimiter, AuditLogger, VenueGenerator, formatters
+- **Component tests**: OperatorDashboard, FanExperience, KPICard, ProgressRing, ErrorBoundary
+- **Integration tests**: Cross-store interaction flows
 
 ---
 
-## 📝 License
-Distributed under the MIT License.
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Framework** | React 19 + TypeScript 6 |
+| **Build** | Vite 8 |
+| **State** | Zustand 5 (with `useShallow`) |
+| **Routing** | React Router 7 |
+| **Animation** | Framer Motion 12 |
+| **Charts** | Recharts 3 |
+| **Icons** | Lucide React |
+| **Testing** | Vitest 4 + Testing Library + jsdom |
+| **Coverage** | @vitest/coverage-v8 |
+| **Styling** | Vanilla CSS (glassmorphism design system) |
+
+---
+
+## 🏆 Hackathon Highlights
+
+1. **Real FIFA 2026 Venues** — MetLife, SoFi, Azteca, BMO, AT&T with accurate capacities
+2. **8-Phase Event Simulation** — pre-event → gates-open → filling → first-half → halftime → second-half → overtime → post-event
+3. **Responsible AI** — Every automated decision has an explainable audit trail
+4. **Privacy-by-Design** — GDPR/CCPA toggles, data portability, consent tracking
+5. **Stunning UI** — Glassmorphism command center with micro-animations
+6. **Production-Ready Code** — TypeScript strict mode, ESLint, comprehensive tests
+
+---
+
+## 📄 License
+
+MIT License — see [LICENSE](LICENSE) for details.
+
+---
+
+<p align="center">
+  Built with ❤️ for FIFA World Cup 2026
+</p>

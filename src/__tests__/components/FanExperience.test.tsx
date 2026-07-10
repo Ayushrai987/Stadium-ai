@@ -30,8 +30,10 @@ describe('FanExperience Component', () => {
           capacity: 80000,
           currentAttendance: 45000,
           sensorHealth: 98,
-          regulatoryRegion: 'NJ-EPA',
+          regulatoryRegion: 'OTHER',
           zones: [],
+          status: 'operational',
+          coordinates: { lat: 40.8135, lng: -74.0744 },
         },
       ],
     });

@@ -2,10 +2,11 @@ import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { Compass, MapPin } from 'lucide-react';
 import { AR_DIRECTIONS } from '../../../constants';
+import type { FanProfile } from '../../../types';
 
 interface ArWayfindingProps {
   arStep: number;
-  profile: any;
+  profile: FanProfile;
 }
 
 export const ArWayfinding = memo(function ArWayfinding({ arStep, profile }: ArWayfindingProps) {

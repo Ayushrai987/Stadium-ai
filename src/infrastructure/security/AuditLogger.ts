@@ -55,6 +55,7 @@ class AuditLogger {
 
     // Also log to console in development
     if (import.meta.env.DEV) {
+      // eslint-disable-next-line no-console
       console.debug('[AUDIT]', fullEntry.action, fullEntry);
     }
 

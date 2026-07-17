@@ -1,4 +1,6 @@
+import { useCallback } from 'react';
 import { useSimulationStore } from '../../../infrastructure/store/useSimulationStore';
+import { useShallow } from 'zustand/react/shallow';
 import { Play, Pause, FastForward, RotateCcw } from 'lucide-react';
 import { simulationEngine } from '../../../infrastructure/simulation/SimulationEngine';
 
@@ -8,28 +10,33 @@ import { simulationEngine } from '../../../infrastructure/simulation/SimulationE
  * and state resets. Fully accessible with role="toolbar".
  */
 export function SimulationControl() {
-  const { isRunning, speed, eventPhase, tickCount } = useSimulationStore();
+  const { isRunning, speed, eventPhase, tickCount } = useSimulationStore(useShallow(state => ({
+    isRunning: state.isRunning,
+    speed: state.speed,
+    eventPhase: state.eventPhase,
+    tickCount: state.tickCount,
+  })));
 
-  const handleToggle = () => {
-    if (isRunning) {
+  const handleToggle = useCallback(() => {
+    if (useSimulationStore.getState().isRunning) {
       simulationEngine.stop();
     } else {
       simulationEngine.start();
     }
-  };
+  }, []);
 
-  const handleSpeed = (s: number) => {
+  const handleSpeed = useCallback((s: number) => {
     simulationEngine.setSpeed(s);
-  };
+  }, []);
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     simulationEngine.stop();
     useSimulationStore.getState().reset();
-  };
+  }, []);
 
-  const handleNextPhase = () => {
+  const handleNextPhase = useCallback(() => {
     useSimulationStore.getState().nextPhase();
-  };
+  }, []);
 
   return (
     <div

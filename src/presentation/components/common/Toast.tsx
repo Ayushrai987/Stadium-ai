@@ -178,6 +178,7 @@ export function ConfirmDialog({
     : 'linear-gradient(135deg, #3b82f6, #8b5cf6)';
 
   return (
+    /* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */
     <div
       role="dialog"
       aria-modal="true"
@@ -196,6 +197,7 @@ export function ConfirmDialog({
       }}
       onClick={onCancel}
     >
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div
         onClick={(e) => e.stopPropagation()}
         style={{

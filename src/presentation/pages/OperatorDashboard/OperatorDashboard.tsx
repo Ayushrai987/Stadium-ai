@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useVenueStore } from '../../../infrastructure/store/useVenueStore';
 import { useIncidentStore } from '../../../infrastructure/store/useIncidentStore';
 import { useKPIStore } from '../../../infrastructure/store/useKPIStore';
@@ -47,14 +47,15 @@ export function OperatorDashboard() {
   const { eventPhase } = useSimulationStore(useShallow(state => ({ eventPhase: state.eventPhase })));
   
   const [selectedZone, setSelectedZone] = useState<Zone | null>(null);
+  const [prevVenueId, setPrevVenueId] = useState(selectedVenueId);
+
+  if (selectedVenueId !== prevVenueId) {
+    setPrevVenueId(selectedVenueId);
+    setSelectedZone(null);
+  }
 
   const currentVenue = getSelectedVenue();
   const sensorStats = getSensorStats();
-
-  // Reset zone choice if venue changes
-  useEffect(() => {
-    setSelectedZone(null);
-  }, [selectedVenueId]);
 
   if (!currentVenue) {
     return (
@@ -65,55 +66,59 @@ export function OperatorDashboard() {
   }
 
   // Find currently active incident detail
-  const activeIncident = incidents.find(i => i.id === activeIncidentId);
+  const activeIncident = useMemo(() => incidents.find(i => i.id === activeIncidentId), [incidents, activeIncidentId]);
 
   // Parse history points for selected zone (if any) to render crowd flow chart
-  const selectedZoneHistory = selectedZone ? (history[selectedZone.id] || []) : [];
-  const chartData = selectedZoneHistory.map((h, i) => ({
-    time: `${i}s`,
-    value: Math.round(h.occupancyPercent),
-  }));
+  const chartData = useMemo(() => {
+    const selectedZoneHistory = selectedZone ? (history[selectedZone.id] || []) : [];
+    return selectedZoneHistory.map((h, i) => ({
+      time: `${i}s`,
+      value: Math.round(h.occupancyPercent),
+    }));
+  }, [selectedZone, history]);
 
   // Build some general occupancy trend data for the main chart if no zone is chosen
-  const mainChartData = (currentVenue.zones[0] ? history[currentVenue.zones[0].id] || [] : []).map((_h, i) => ({
-    time: `${i}s`,
-    value: Math.round((currentVenue.currentAttendance / currentVenue.capacity) * 100 + Math.sin(i * 0.2) * 2),
-  }));
+  const mainChartData = useMemo(() => {
+    return (currentVenue.zones[0] ? history[currentVenue.zones[0].id] || [] : []).map((_h, i) => ({
+      time: `${i}s`,
+      value: Math.round((currentVenue.currentAttendance / currentVenue.capacity) * 100 + Math.sin(i * 0.2) * 2),
+    }));
+  }, [currentVenue, history]);
 
-  const handleZoneClick = (zone: Zone) => {
+  const handleZoneClick = useCallback((zone: Zone) => {
     setSelectedZone(zone);
     showToast(`Viewing details for ${zone.name}`, 'info');
-  };
+  }, []);
 
-  const handleIncidentSelect = (incident: Incident) => {
+  const handleIncidentSelect = useCallback((incident: Incident) => {
     selectIncident(incident.id);
     const z = currentVenue.zones.find(zone => zone.id === incident.zoneId);
     if (z) setSelectedZone(z);
     showToast(`Focused on incident: ${incident.title}`, 'warning');
-  };
+  }, [selectIncident, currentVenue.zones]);
 
-  const handleAcknowledge = (id: string) => {
+  const handleAcknowledge = useCallback((id: string) => {
     if (!rateLimiter.isAllowed('ops-action', 10, 60000)) {
       showToast('Rate limit exceeded. Please wait before taking action.', 'error');
       return;
     }
     acknowledgeIncident(id);
     showToast('Playbook triggered. Dispatch responders routed.', 'success');
-  };
+  }, [acknowledgeIncident]);
 
-  const handleResolve = (id: string) => {
+  const handleResolve = useCallback((id: string) => {
     if (!rateLimiter.isAllowed('ops-action', 10, 60000)) {
       showToast('Rate limit exceeded. Please wait before taking action.', 'error');
       return;
     }
     resolveIncident(id);
     showToast('Incident marked resolved.', 'success');
-  };
+  }, [resolveIncident]);
 
-  const handleVenueClick = (id: string) => {
+  const handleVenueClick = useCallback((id: string) => {
     selectVenue(id);
     showToast(`Switched venue view to ${venues.find(v => v.id === id)?.name || ''}`, 'info');
-  };
+  }, [selectVenue, venues]);
 
 
   const currentOccupancyPercent = calcOccupancyPercent(currentVenue.currentAttendance, currentVenue.capacity);

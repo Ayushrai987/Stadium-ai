@@ -193,7 +193,7 @@ export function FanExperience() {
           </main>
 
           {/* Bottom Tab Bar */}
-          <nav className="fan-app-nav" role="tablist" aria-label="Mobile Application Navigation tabs">
+          <div className="fan-app-nav" role="tablist" aria-label="Mobile Application Navigation tabs">
             <button
               role="tab"
               aria-selected={activeTab === 'nav'}
@@ -244,7 +244,7 @@ export function FanExperience() {
               <Shield size={20} aria-hidden="true" />
               <span>Privacy</span>
             </button>
-          </nav>
+          </div>
         </div>
       </div>
     </div>
